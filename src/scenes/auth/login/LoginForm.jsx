@@ -49,8 +49,6 @@ export default function LoginForm() {
 
 	const onSubmit = (values, actions) => {
 		const { email, password } = values;
-        
-		
 		actions.resetForm();
 	}
 
@@ -100,7 +98,7 @@ export default function LoginForm() {
 
 						<Button type="submit" color="primary" variant="contained">	
 							Войти
-        		</Button>
+        				</Button>
 
 					</Form>
 				)}

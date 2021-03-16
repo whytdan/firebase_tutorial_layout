@@ -1,6 +1,6 @@
+import React from 'react';
 import { Button, TextField } from '@material-ui/core';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
-import React, { useContext, useState } from 'react';
 import classes from '../auth.module.css';
 import * as Yup from "yup";
 import TextError from '../../../components/TextError';
@@ -17,7 +17,7 @@ export default function RegisterForm() {
 		email: Yup.string().required("Обязательное поле!").email('Неверный формат email!'),
 		password: Yup.string().required("Обязательное поле!").min(6, 'Требуется как минимум 6 символов!'),
 		passwordConfirm: Yup.string().required("Обязательное поле!").oneOf([Yup.ref('password'), null], 'Пароли должны совпадать!')
-	  });
+	});
 
 	const onSubmit = (values, actions) => {
 		const { email, password } = values;
