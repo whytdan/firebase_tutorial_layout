@@ -9,9 +9,9 @@ export default function Routes() {
     return (
         <BrowserRouter>
             <Switch>
-                <Route path="/" component={() => <Redirect to="/products" />} exact />
-                <Route path="/products" component={PostsList} exact />
-                <Route path="/products/:id" component={PostDetail} exact />
+                <Route path="/" component={() => <Redirect to="/posts" />} exact />
+                <Route path="/posts" component={PostsList} exact />
+                <Route path="/posts/:id" component={PostDetail} exact />
                 <Route path="/register" component={RegisterPage} exact />
                 <Route path="/login" component={LoginPage} exact />
             </Switch>

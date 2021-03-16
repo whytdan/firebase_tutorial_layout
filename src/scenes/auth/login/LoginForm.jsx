@@ -3,11 +3,14 @@ import { ErrorMessage, Field, Form, Formik } from 'formik';
 import React, { useContext, useState } from 'react';
 import * as Yup from "yup";
 import TextError from '../../../components/TextError';
-import { toast } from 'react-toastify';
 import { useHistory } from 'react-router-dom';
 import classes from '../auth.module.css';
+import { authContext } from '../../../contexts/authContext';
 
 export default function LoginForm() {
+
+
+	const {loginWithFirebase} = useContext(authContext);
 
 	const initialValues = {
 		email: "",
@@ -19,36 +22,11 @@ export default function LoginForm() {
 		password: Yup.string().required("Обязательное поле!").min(6, 'Требуется как минимум 6 символов!'),
 	  });
 
-    const notify = (email) => toast(`Вы вошли в систему как ${email}!`, {
-		position: "top-right",
-		autoClose: 5000,
-		hideProgressBar: false,
-		newestOnTop: false,
-		closeOnClick: true,
-		rtl: false,
-		pauseOnFocusLoss: true,
-		draggable: true,
-		pauseOnHover: true,
-		type: 'success'
-	});
-
-    const notifyError = () => toast('Неверные данные или несуществующий юзер!', {
-		position: "top-right",
-		autoClose: 5000,
-		hideProgressBar: false,
-		newestOnTop: false,
-		closeOnClick: true,
-		rtl: false,
-		pauseOnFocusLoss: true,
-		draggable: true,
-		pauseOnHover: true,
-		type: 'error'
-	});
-
 	const history = useHistory();
 
 	const onSubmit = (values, actions) => {
 		const { email, password } = values;
+		loginWithFirebase(email, password);
 		actions.resetForm();
 	}
 

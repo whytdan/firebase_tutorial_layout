@@ -1,11 +1,15 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Button, TextField } from '@material-ui/core';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import classes from '../auth.module.css';
 import * as Yup from "yup";
 import TextError from '../../../components/TextError';
+import { authContext } from '../../../contexts/authContext';
 
 export default function RegisterForm() {
+
+
+	const { registerWithFirebase } = useContext(authContext)
 
 	const initialValues = {
 		email: "",
@@ -13,14 +17,18 @@ export default function RegisterForm() {
 		passwordConfirm: ""
 	}
 
+
 	const validationSchema = Yup.object({
 		email: Yup.string().required("Обязательное поле!").email('Неверный формат email!'),
 		password: Yup.string().required("Обязательное поле!").min(6, 'Требуется как минимум 6 символов!'),
 		passwordConfirm: Yup.string().required("Обязательное поле!").oneOf([Yup.ref('password'), null], 'Пароли должны совпадать!')
 	});
 
+
+
 	const onSubmit = (values, actions) => {
 		const { email, password } = values;
+		registerWithFirebase(email, password);
 		actions.resetForm();
 	}
 
@@ -85,7 +93,7 @@ export default function RegisterForm() {
 
 						<Button type="submit" color="primary" variant="contained">	
 							Отправить
-        				</Button>
+        		</Button>
 
 					</Form>
 				)}

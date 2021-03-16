@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -6,12 +6,11 @@ import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import AccountCircle from '@material-ui/icons/AccountCircle';
-import Switch from '@material-ui/core/Switch';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormGroup from '@material-ui/core/FormGroup';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import { useHistory } from 'react-router';
+import { authContext } from '../../contexts/authContext';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -34,6 +33,8 @@ export default function Navbar() {
   const [auth, setAuth] = React.useState(false);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
+
+  const {isAuth, signOutWithFirebase} = useContext(authContext);
 
   const handleChange = (event) => {
     setAuth(event.target.checked);
@@ -121,19 +122,40 @@ export default function Navbar() {
                 open={open}
                 onClose={handleClose}
               >
-                <MenuItem onClick={() => {
-                  history.push('/login')
-                  handleClose()
-                }}>
-                  Войти
-                </MenuItem>
-
-                <MenuItem onClick={() => {
-                  history.push('/register')
-                  handleClose()
-                }}>
-                  Регистрация
-                </MenuItem>
+                {
+                  isAuth ? (
+                    <>
+                    <MenuItem onClick={() => {
+                      handleClose()
+                    }}>
+                      Профиль
+                    </MenuItem>
+    
+                    <MenuItem onClick={() => {
+                      signOutWithFirebase()
+                      history.push('/')
+                    }}>
+                      Выйти
+                    </MenuItem>
+                    </>
+                  ) : (
+                    <>
+                    <MenuItem onClick={() => {
+                      history.push('/login')
+                      handleClose()
+                    }}>
+                      Войти
+                    </MenuItem>
+    
+                    <MenuItem onClick={() => {
+                      history.push('/register')
+                      handleClose()
+                    }}>
+                      Регистрация
+                    </MenuItem>
+                    </>
+                  )
+                }
               </Menu>
             </div>
           )}
